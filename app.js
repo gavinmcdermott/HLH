@@ -7,7 +7,27 @@ var express = require('express'),
     routes = require('./routes'),
     everyauth = require('everyauth'),
     api = require('./routes/api');
+    mongoose = require('mongoose');
 
+
+// Mongoose
+mongoose.connect('mongodb://localhost/hlh');
+
+var db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback () {
+  console.log('mongodb open!');
+});
+// Schemas
+
+var userSchema = mongoose.Schema({
+  username: String,
+  gitInfo: Object,
+  port: Number
+});
+
+var User = mongoose.model('User', userSchema);
 /**
  * EVERYAUTH AUTHENTICATION
  * -------------------------------------------------------------------------------------------------
@@ -16,7 +36,6 @@ var express = require('express'),
 
 everyauth.debug = true;
 
-// Configure Facebook auth
 var usersById = {},
     nextUserId = 0,
     usersByFacebookId = {},
@@ -28,14 +47,14 @@ var usersById = {},
 everyauth.
     everymodule.
     findUserById(function (id, callback) {
-        callback(null, usersById[id]);
+      User.findById(id, callback);
     });
 
 everyauth.github
     .appId("7b186c29cae93a88bdcb")
     .appSecret("fe632b0c8ad5edf26cd30f67937c7967e1189ea2")
     .findOrCreateUser( function (sess, accessToken, accessSecret, ghUser) {
-        return usersById[ghUser.id] || (usersById[ghUser.id] = addUser('github', ghUser));
+      return User.find({username: ghUser.login}) || addUser('github', ghUser);
     })
     .redirectPath('/');
 
@@ -51,6 +70,13 @@ function addUser (source, sourceUser) {
         user = usersById[++nextUserId] = {id: nextUserId};
         user[source] = sourceUser;
     }
+    var new_user = new User({username: user.github.login, gitInfo: user});
+    new_user.save(function(err, new_user){
+      if (err) {
+        throw new Error(err);
+      }
+      else console.log('saved user with id ' + new_user.username);
+    });
     return user;
 }
 
