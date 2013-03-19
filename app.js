@@ -31,42 +31,11 @@ everyauth.
         callback(null, usersById[id]);
     });
 
-
-/**
- * FACEBOOK AUTHENTICATION
- * -------------------------------------------------------------------------------------------------
- * uncomment this section if you want to enable facebook authentication.  To use this, you will need
- * to get a facebook application Id and Secret, and add those to settings.json.  See:
- * http://developers.facebook.com/
- **/
-
-//everyauth.
-//    facebook.
-//    appId(nconf.get('facebook:applicationId')).
-//    appSecret(nconf.get('facebook:applicationSecret')).
-//    findOrCreateUser(
-//	function(session, accessToken, accessTokenExtra, fbUserMetadata){
-//	    return usersByFacebookId[fbUserMetadata.claimedIdentifier] ||
-//		(usersByFacebookId[fbUserMetadata.claimedIdentifier] =
-//		 addUser('facebook', fbUserMetadata));
-//	}).
-//    redirectPath('/');
-
-
-/**
- * TWITTER AUTHENTICATION
- * -------------------------------------------------------------------------------------------------
- * uncomment this section if you want to enable twitter authentication.  To use this, you will need
- * to get a twitter key and secret, and add those to settings.json.  See:
- * https://dev.twitter.com/
- **/
-
-everyauth
-    .twitter
-    .consumerKey("JLCGyLzuOK1BjnKPKGyQ")
-    .consumerSecret("GNqKfPqtzOcsCtFbGTMqinoATHvBcy1nzCTimeA9M0")
-    .findOrCreateUser( function (sess, accessToken, accessSecret, twitUser) {
-        return usersByTwitId[twitUser.id] || (usersByTwitId[twitUser.id] = addUser('twitter', twitUser));
+everyauth.github
+    .appId("7b186c29cae93a88bdcb")
+    .appSecret("fe632b0c8ad5edf26cd30f67937c7967e1189ea2")
+    .findOrCreateUser( function (sess, accessToken, accessSecret, ghUser) {
+      console.log('find user');
     })
     .redirectPath('/');
 
