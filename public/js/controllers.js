@@ -1,7 +1,7 @@
 'use strict';
 
                /* Controllers */
-function UserCtrl($scope) {
+function signUpCtrl($scope) {
   $scope.onGitLogin = function() {
     window.location = "/auth/github";
   }
