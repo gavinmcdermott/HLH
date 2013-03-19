@@ -35,7 +35,7 @@ everyauth.github
     .appId("7b186c29cae93a88bdcb")
     .appSecret("fe632b0c8ad5edf26cd30f67937c7967e1189ea2")
     .findOrCreateUser( function (sess, accessToken, accessSecret, ghUser) {
-      console.log('find user');
+        return usersById[ghUser.id] || (usersById[ghUser.id] = addUser('github', ghUser));
     })
     .redirectPath('/');
 
