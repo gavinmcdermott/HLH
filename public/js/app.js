@@ -7,6 +7,12 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives'])
       templateUrl: 'partials/index',
       controller: IndexCtrl
     });
+
+
+
+
+
+// stock below here
     $routeProvider.when('/addPost', {
       templateUrl: 'partials/addPost',
       controller: AddPostCtrl

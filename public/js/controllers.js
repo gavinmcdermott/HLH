@@ -1,6 +1,15 @@
 'use strict';
 
                /* Controllers */
+function UserCtrl($scope) {
+  $scope.onGitLogin = function() {
+    window.location = "/auth/github";
+  }
+}
+
+
+
+
 
 
 function NavBarController($scope) {
